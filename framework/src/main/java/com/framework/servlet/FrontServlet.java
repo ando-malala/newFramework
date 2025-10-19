@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class FrontServlet extends HttpServlet {
 
+    // Get resource
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
