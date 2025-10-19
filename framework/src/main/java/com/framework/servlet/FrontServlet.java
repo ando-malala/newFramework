@@ -21,7 +21,7 @@ public class FrontServlet extends HttpServlet {
             response.getWriter().println(path);
         }
         else{
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/default");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/default_url");
             dispatcher.forward(request, response);
         }
     }
