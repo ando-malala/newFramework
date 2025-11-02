@@ -26,6 +26,7 @@ public class FrontServlet extends HttpServlet {
         }
     }
 
+    // Get resource
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,7 +44,7 @@ public class FrontServlet extends HttpServlet {
             response.getWriter().println(message);
         }
         else{
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("default");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/default_url");
             dispatcher.forward(request, response);
         }
     }
