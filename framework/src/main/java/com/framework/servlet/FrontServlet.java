@@ -1,15 +1,30 @@
 package com.framework.servlet;
 
+import com.framework.utils.JavaControllerScanner;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 
 public class FrontServlet extends HttpServlet {
+    private Set<Class<?>> controllers;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            controllers = JavaControllerScanner.findControllers();
+            System.out.println(controllers);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response)
@@ -17,10 +32,18 @@ public class FrontServlet extends HttpServlet {
         String path = request.getRequestURI().substring(request.getContextPath().length());
         boolean ressourceContext = getServletContext().getResource(path)!=null;
         if(!ressourceContext){
-            response.getWriter().println(path);
+            Method method = JavaControllerScanner.getMethodMappedWithUrl(controllers,path);
+            String message="";
+            if(method!=null){
+                message = "Methode trouve:"+method.getName();
+            }
+            else{
+                message = "Erreur 404:Not Found";
+            }
+            response.getWriter().println(message);
         }
         else{
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/default");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("default");
             dispatcher.forward(request, response);
         }
     }
@@ -36,4 +59,5 @@ public class FrontServlet extends HttpServlet {
             throws ServletException, IOException {
         service(request, response);
     }
+
 }
