@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface UrlController{
+@Target(ElementType.METHOD)
+public @interface MethodAnnotation{
     String value() default "";
 }
